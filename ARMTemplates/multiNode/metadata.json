@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Qlik Sense Enterprise Multi Node",
+  "description": "This template provisions a two Qlik Sense Enterprise nodes. Bring your own license.",
+  "summary": "This template provisions two Qlik Sense Enterprise site.",
+  "githubUsername": "clintcarr",
+  "dateUpdated": "2017-09-22"
+}

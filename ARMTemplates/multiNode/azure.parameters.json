@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "adminUserName": {
+        "value": "qlik"
+      },
+      "adminPassword": {
+        "value": "I8ErzjBDQWVZxpvDkfy5"
+      },
+      "centralVmName": {
+        "value": "qlik-sense-cn"
+      },
+      "rimVmName": {
+        "value": "qlik-sense-rn"
+      },
+      "qlikSenseVersion": {
+        "value": "Qlik Sense September 2017"
+      },
+      "qlikSenseServiceAccount": {
+        "value": "qService"
+      },
+      "qlikSenseServiceAccountPassword": {
+        "value": "I8ErzjBDQW5!"
+      },
+      "qlikSenseRepositoryPassword": {
+        "value": "Qlik1234"
+      },
+      "qlikSenseSerial": {
+        "value": "XXX"
+      },
+      "qlikSenseControl": {
+        "value": "XXX"
+      },
+      "qlikSenseOrganization": {
+        "value": "Qlik"
+      },
+      "qlikSenseName": {
+        "value": "Qlik"
+      },
+      "virtualMachineSize": {
+        "value": "Standard_DS3_v2"
+      },
+      "windowsOSVersion": {
+        "value": "2016-Datacenter"
+      }
+    }
+  }
