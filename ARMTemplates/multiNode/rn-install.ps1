@@ -34,7 +34,6 @@ function Write-Log
 # create qlik sense service account
 Write-Log -Message "Creating Service Account $($serviceAccountUser)"
 net user "$($serviceAccountUser)" "$($serviceAccountPass)" /add /fullname:"Qlik Sense Service Account" /passwordchg:NO
-net user "$($serviceAccountUser)" "$($serviceAccountPass)" /add /fullname:"Qlik Sense Service Account" /passwordchg:NO
 Write-Log -Message "Adding $($serviceAccountUser) to local administrators"
 ([ADSI]"WinNT://$($env:computername)/administrators,group").psbase.Invoke("Add",([ADSI]"WinNT://$($env:computername)/$($serviceAccountUser)").path)
 
@@ -94,10 +93,10 @@ else
 </SharedPersistenceConfiguration>
 "@ | Out-File C:\installation\spConfig.xml
 
-Write-Log -Message "Installing PSExec"
-
+Write-Log -Message "Installing Chocolatey package manager"
 powershell -NoProfile -ExecutionPolicy unrestricted -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"
 
+Write-Log -Message "Installing PSExec"
 c:\programdata\chocolatey\bin\cinst psexec -y > c:\installation\InstallPSexec.txt 2>&1
 
 # install Qlik Sense
@@ -125,5 +124,12 @@ start-sleep 30
 Write-Log -Message "Connecting to Qlik Sense on $qlikSenseCentralNode"
 $hostNameRim = $env:COMPUTERNAME
 c:\programdata\chocolatey\bin\psexec.exe -h -u $env:COMPUTERNAME\$adminUser -p $adminPass /accepteula cmd /c "powershell -command Connect-Qlik $($qlikSenseCentralNode) -TrustAllCerts -UseDefaultCredentials; register-qliknode -hostname $hostNameRim -name Rim -nodePurpose 2 -engineEnabled -proxyEnabled" >c:\installation\registerQlik.txt 2>&1
+
+# Now server is added certificates have been installed, connection to Qlik Sense can occur without elevation
+Connect-Qlik $qlikSenseCentralNode -UseDefaultCredentials
+
+Write-Log -Message "Updating Virtual Proxies on both Central and Rim node to support load balancing of both nodes."
+Update-QlikVirtualProxy -id $(Get-QlikVirtualProxy -filter "description eq 'Rim Proxy (Default)'").id -loadBalancingServerNodes $(Get-QlikNode -filter "name eq 'Rim'").id, $(Get-QlikNode -filter "name eq 'Central'").id
+Update-QlikVirtualProxy -id $(Get-QlikVirtualProxy -filter "description eq 'Central Proxy (Default)'").id -loadBalancingServerNodes $(Get-QlikNode -filter "name eq 'Rim'").id, $(Get-QlikNode -filter "name eq 'Central'").id
 
 Write-Log "Server provisioning complete"
