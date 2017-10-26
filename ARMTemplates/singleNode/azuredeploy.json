@@ -7,7 +7,7 @@
     "metadata": {
       "description": "The base URI where artifacts required by this template are located. When the template is deployed using the accompanying scripts, a private location in the subscription will be used and this value will be automatically generated."
     },
-    "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/qlik-sense-enterprise"
+    "defaultValue": "https://raw.githubusercontent.com/clintcarr/QlikSenseARMTemplates/master/ARMTemplates/singleNode"
   },
   "_artifactsLocationSasToken": {
     "type": "securestring",
@@ -74,6 +74,30 @@
     "type": "securestring",
     "metadata": {
       "description": "Password for the Qlik Sense Repository user."
+    }
+  },
+  "qlikSenseSerial": {
+    "type": "string",
+    "metadata": {
+      "description": "Password for the Qlik Sense Repository user."
+    }
+  },
+  "qlikSenseControl": {
+    "type": "securestring",
+    "metadata": {
+      "description": "Control key for Qlik Sense license."
+    }
+  },
+  "qlikSenseOrganization": {
+    "type": "string",
+    "metadata": {
+      "description": "Organization owner of license."
+    }
+  },
+  "qlikSenseName": {
+    "type": "string",
+    "metadata": {
+      "description": "Name of licensed organization."
     }
   },
   "virtualMachineSize": {
@@ -354,7 +378,7 @@
             ]
           },
           "protectedSettings": {
-            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File qs-bootstrap.ps1 ',' \"', parameters('adminUsername'), '\"',' \"', parameters('adminPassword'), '\"',' \"', parameters('qlikSenseServiceAccount'), '\"',' \"', parameters('qlikSenseServiceAccountPassword'), '\"',' \"', parameters('qlikSenseRepositoryPassword'), '\"',' \"', parameters('qlikSenseVersion'), '\"',' \"', parameters('_artifactsLocation'), '\"')]"
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File qs-bootstrap.ps1 ',' \"', parameters('adminUsername'), '\"',' \"', parameters('adminPassword'), '\"',' \"', parameters('qlikSenseServiceAccount'), '\"',' \"', parameters('qlikSenseServiceAccountPassword'), '\"',' \"', parameters('qlikSenseRepositoryPassword'), '\"',' \"', parameters('qlikSenseVersion'), '\"',' \"', parameters('qlikSenseSerial'), '\"',' \"', parameters('qlikSenseControl'), '\"',' \"', parameters('qlikSenseOrganisation'), '\"',' \"', parameters('qlikSenseName'), '\"',' \"', parameters('_artifactsLocation'), '\"')]"
           }
         }
       }

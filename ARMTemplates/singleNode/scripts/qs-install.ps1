@@ -7,6 +7,10 @@ $serviceAccountUser = $Args[2]
 $serviceAccountPass = $Args[3]
 $dbPass = $Args[4]
 $qlikSenseVersion = $($Args[5])
+$qlikSenseSerial = $($Args[6])
+$qlikSenseControl = $($Args[7])
+$qlikSenseOrganization = $($Args[8])
+$qlikSenseName = $($Args[9])
 $serviceAccountWithDomain = -join ($($env:ComputerName), '\',$($Args[2]))
 
 # qlik sense download urls
@@ -135,3 +139,19 @@ If (Test-Path "c:\installation\Qlik_Sense_update.exe")
 		Get-Service Qlik* | where {$_.Name -eq 'QlikSenseServiceDispatcher'} | Stop-Service
 		Get-Service Qlik* | where {$_.Name -eq 'QlikSenseServiceDispatcher'} | Start-Service
 	}
+
+If (-not $qlikSenseSerial -eq "defaultValue") {
+$statusCode = 0
+    while ($StatusCode -ne 200) 
+    {
+        write-log "StatusCode is $StatusCode" -Severity "Warn"
+        try { $statusCode = (invoke-webrequest  https://$($env:COMPUTERNAME)/qps/user -usebasicParsing).statusCode }
+        Catch 
+            { 
+                Write-Log "Server down, waiting for 20 seconds" -Severity "Warn"
+                start-Sleep -s 20
+            }
+    }
+    $connectResult = Connect-Qlik $env:COMPUTERNAME -UseDefaultCredentials
+    $licenseResult = Set-QlikLicense -serial $qlikSenseSerial -control $qlikSenseControl -name "$($qlikSenseName)" -organization "$($qlikSenseOrganization)"
+}
