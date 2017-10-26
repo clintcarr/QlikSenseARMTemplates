@@ -41,7 +41,7 @@ $json = @{
     )
 }
 
-$json = ConvertTo-Json -Compress -Depth 10 | Out-File 'c:\installation\qBinaryDownload.json'
+$json | ConvertTo-Json -Compress -Depth 10 | Out-File 'c:\installation\qBinaryDownload.json'
 
 # create qlik sense service account
 net user "$($serviceAccountUser)" "$($serviceAccountPass)" /add /fullname:"Qlik Sense Service Account" /passwordchg:NO
