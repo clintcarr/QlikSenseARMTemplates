@@ -140,7 +140,7 @@ If (Test-Path "c:\installation\Qlik_Sense_update.exe")
 		Get-Service Qlik* | where {$_.Name -eq 'QlikSenseServiceDispatcher'} | Start-Service
 	}
 
-If (-not $qlikSenseSerial -eq "defaultValue") {
+If (! ( $qlikSenseSerial -eq "defaultValue" ) -or $qlikSenseSerial -eq "") {
 $statusCode = 0
     while ($StatusCode -ne 200) 
     {
