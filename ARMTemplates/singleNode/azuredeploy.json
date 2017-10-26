@@ -378,7 +378,7 @@
             ]
           },
           "protectedSettings": {
-            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File qs-bootstrap.ps1 ',' \"', parameters('adminUsername'), '\"',' \"', parameters('adminPassword'), '\"',' \"', parameters('qlikSenseServiceAccount'), '\"',' \"', parameters('qlikSenseServiceAccountPassword'), '\"',' \"', parameters('qlikSenseRepositoryPassword'), '\"',' \"', parameters('qlikSenseVersion'), '\"',' \"', parameters('qlikSenseSerial'), '\"',' \"', parameters('qlikSenseControl'), '\"',' \"', parameters('qlikSenseOrganisation'), '\"',' \"', parameters('qlikSenseName'), '\"',' \"', parameters('_artifactsLocation'), '\"')]"
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File qs-bootstrap.ps1 ',' \"', parameters('adminUsername'), '\"',' \"', parameters('adminPassword'), '\"',' \"', parameters('qlikSenseServiceAccount'), '\"',' \"', parameters('qlikSenseServiceAccountPassword'), '\"',' \"', parameters('qlikSenseRepositoryPassword'), '\"',' \"', parameters('qlikSenseVersion'), '\"',' \"', parameters('qlikSenseSerial'), '\"',' \"', parameters('qlikSenseControl'), '\"',' \"', parameters('qlikSenseOrganization'), '\"',' \"', parameters('qlikSenseName'), '\"',' \"', parameters('_artifactsLocation'), '\"')]"
           }
         }
       }
