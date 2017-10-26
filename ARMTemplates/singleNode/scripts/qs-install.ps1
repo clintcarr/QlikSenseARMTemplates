@@ -8,11 +8,40 @@ $serviceAccountPass = $Args[3]
 $dbPass = $Args[4]
 $qlikSenseVersion = $($Args[5])
 $serviceAccountWithDomain = -join ($($env:ComputerName), '\',$($Args[2]))
-$qlikSenseSerial = $Args[6]
-$qlikSenseControl = $Args[7]
-$qlikSenseOrganization = $($Args[8])
-$qlikSenseName = $($Args[9])
-$qsDownloads = 'https://raw.githubusercontent.com/clintcarr/QlikSenseBinaryDownloads/master/qsBinaryDownload.json'
+
+# qlik sense download urls
+$json = @{
+    qliksense = @(
+        @{
+            name= "Qlik Sense September 2017"
+            url= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.14/0/_MSI/Qlik_Sense_setup.exe"
+          },
+        @{  
+            name= "Qlik Sense June 2017 Patch 2"
+            url= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.11/2/_MSI/Qlik_Sense_update.exe"
+            url2= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.11/0/_MSI/Qlik_Sense_setup.exe"
+        },
+        @{
+            name= "Qlik Sense June 2017 Patch 1"
+            url= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.11/1/_MSI/Qlik_Sense_update.exe"
+            url2= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.11/0/_MSI/Qlik_Sense_setup.exe"
+        },
+        @{
+            name= "Qlik Sense June 2017"
+            url= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.11/0/_MSI/Qlik_Sense_setup.exe"
+        },
+        @{
+            name= "Qlik Sense 3.2 SR5"
+            url= "https://da3hntz84uekx.cloudfront.net/QlikSense/3.2.5/205/_MSI/Qlik_Sense_setup.exe"
+        },
+        @{
+            name= "Qlik Sense 3.2 SR4"
+            url= "https://da3hntz84uekx.cloudfront.net/QlikSense/3.2.4/204/_MSI/Qlik_Sense_setup.exe"
+        }
+    )
+}
+
+$json = ConvertTo-Json -Compress -Depth 10 | Out-File 'c:\installation\qBinaryDownload.json'
 
 # create qlik sense service account
 net user "$($serviceAccountUser)" "$($serviceAccountPass)" /add /fullname:"Qlik Sense Service Account" /passwordchg:NO
@@ -28,15 +57,13 @@ Get-PackageProvider -Name NuGet -ForceBootstrap
 Write-Log -Message "Installing Qlik-CLI module"
 Install-Module -Name Qlik-CLI -Confirm:$false -Force
 
-# download selected Qlik Sense binary and update if selected
+# download selected Qlik Sense binary and any updates
 $json = (@{
     name = $qlikSenseVersion;}) 
 
 $json | ConvertTo-Json -Compress -Depth 10 | Out-File 'c:\installation\qsVer.json'
 
 $qsVer = (Get-Content C:\installation\qsVer.json -raw) | ConvertFrom-Json
-
-(New-Object System.Net.WebClient).DownloadFile($qsDownloads, 'c:\installation\qBinaryDownload.json')
 $qsBinaryURL = (Get-Content C:\installation\qBinaryDownload.json -raw) | ConvertFrom-Json
 $binaryName = $qsBinaryURL.qliksense | where { $_.name -eq $qsVer.name}
 $selVer = $qsBinaryURL.qliksense | where { $_.name -eq $qsVer.name }
@@ -108,18 +135,3 @@ If (Test-Path "c:\installation\Qlik_Sense_update.exe")
 		Get-Service Qlik* | where {$_.Name -eq 'QlikSenseServiceDispatcher'} | Stop-Service
 		Get-Service Qlik* | where {$_.Name -eq 'QlikSenseServiceDispatcher'} | Start-Service
 	}
-
-If (-not $qlikSenseSerial -eq "") {
-$statusCode = 0
-    while ($StatusCode -ne 200) 
-    {
-        write-host "StatusCode is " $StatusCode
-        try { $statusCode = (invoke-webrequest  https://$($env:COMPUTERNAME)/qps/user -usebasicParsing).statusCode }
-        Catch 
-            { 
-                start-Sleep -s 20
-            }
-    }
-Connect-Qlik $env:COMPUTERNAME -UseDefaultCredentials | Add-Content c:\installation\connectQlik.txt
-Set-QlikLicense -serial $qlikSenseSerial -control $qlikSenseControl -name "$($qlikSenseName)" -organization "$($qlikSenseOrganization)" | Add-Content c:\installation\connectQlik.txt
-}
