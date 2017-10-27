@@ -78,24 +78,28 @@
   },
   "qlikSenseSerial": {
     "type": "string",
+    "defaultValue": "",
     "metadata": {
       "description": "Password for the Qlik Sense Repository user."
     }
   },
   "qlikSenseControl": {
     "type": "securestring",
+    "defaultValue": "",
     "metadata": {
       "description": "Control key for Qlik Sense license."
     }
   },
   "qlikSenseOrganization": {
     "type": "string",
+    "defaultValue": "",
     "metadata": {
       "description": "Organization owner of license."
     }
   },
   "qlikSenseName": {
     "type": "string",
+    "defaultValue": "",
     "metadata": {
       "description": "Name of licensed organization."
     }
