@@ -45,6 +45,7 @@
     "type": "string",
     "defaultValue": "Qlik Sense September 2017",
     "allowedValues": [
+      "Qlik Sense September 2017 Patch 1",
       "Qlik Sense September 2017",
       "Qlik Sense June 2017 Patch 2",
       "Qlik Sense June 2017 Patch 1",
@@ -373,9 +374,9 @@
           "displayName": "QlikSense"
         },
         "properties": {
-          "publisher": "Microsoft.Compute",
-          "type": "CustomScriptExtension",
-          "typeHandlerVersion": "1.4",
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
           "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": [
