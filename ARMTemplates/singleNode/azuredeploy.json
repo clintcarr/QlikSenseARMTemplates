@@ -363,10 +363,10 @@
     },
     "resources": [
       {
-        "name": "QlikSense",
         "type": "extensions",
+        "apiVersion": "2017-03-30",
+        "name": "QlikSenseBootstrap",
         "location": "[resourceGroup().location]",
-        "apiVersion": "2016-03-30",
         "dependsOn": [
           "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
         ],
@@ -374,9 +374,9 @@
           "displayName": "QlikSense"
         },
         "properties": {
-          "publisher": "Microsoft.Compute",
-          "type": "CustomScriptExtension",
-          "typeHandlerVersion": "1.4",
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
           "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": [
