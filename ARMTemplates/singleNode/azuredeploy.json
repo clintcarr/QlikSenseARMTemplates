@@ -152,6 +152,7 @@
   "networkSecurityGroupName": "qlikSenseSecurityGroup",
   "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
   "scriptFolder": "scripts",
+  "scriptInstallFile": "qs-install.ps1",
   "scriptFileName": "qs-bootstrap.ps1"
 },
 "resources": [
@@ -374,13 +375,14 @@
           "displayName": "QlikSense"
         },
         "properties": {
-          "publisher": "Microsoft.Azure.Extensions",
-          "type": "CustomScript",
-          "typeHandlerVersion": "2.0",
+          "publisher": "Microsoft.Compute",
+          "type": "CustomScriptExtension",
+          "typeHandlerVersion": "1.4",
           "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": [
-              "[concat(parameters('_artifactsLocation'), '/', variables('scriptFolder'), '/', variables('scriptFileName'), parameters('_artifactsLocationSasToken'))]"
+              "[concat(parameters('_artifactsLocation'), '/', variables('scriptFolder'), '/', variables('scriptFileName'), parameters('_artifactsLocationSasToken'))]",
+              "[concat(parameters('_artifactsLocation'), '/', variables('scriptFolder'), '/', variables('scriptInstallFile'), parameters('_artifactsLocationSasToken'))]"
             ]
           },
           "protectedSettings": {
