@@ -17,8 +17,8 @@ $serviceAccountWithDomain = -join ($($env:ComputerName), '\',$($Args[2]))
 $json = @{
     qliksense = @(
          @{
-            name= "Qlik Sense September 2017 Patch 1",
-            url= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.14/1/_MSI/Qlik_Sense_update.exe",
+            name= "Qlik Sense September 2017 Patch 1"
+            url= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.14/1/_MSI/Qlik_Sense_update.exe"
             url2= "https://da3hntz84uekx.cloudfront.net/QlikSense/11.14/0/_MSI/Qlik_Sense_setup.exe"
         },
         @{
@@ -78,13 +78,14 @@ $path = 'c:\installation'
 $url = $selVer.url
 $fileName = $url.Substring($url.LastIndexOf("/") + 1)
 $dlLoc = join-path $path $fileName
-if ($selVer.name -like "*June 2017 Patch*") {
+if ($selVer.name -like "*Patch*") {
     (New-Object System.Net.WebClient).DownloadFile($url, $dlLoc)
     $url2 = $selVer.url2
     $fileName = $url2.Substring($url2.LastIndexOf("/") + 1)
     $dlLoc = join-path $path $fileName
     (New-Object System.Net.WebClient).DownloadFile($url2, $dlLoc)
    }
+
 else
    {
    (New-Object System.Net.WebClient).DownloadFile($url, $dlLoc)
