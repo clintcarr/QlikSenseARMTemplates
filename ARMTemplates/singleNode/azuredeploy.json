@@ -80,28 +80,28 @@
   },
   "qlikSenseSerial": {
     "type": "string",
-    "defaultValue": "",
+    "defaultValue": "defaultValue",
     "metadata": {
       "description": "Password for the Qlik Sense Repository user."
     }
   },
   "qlikSenseControl": {
     "type": "securestring",
-    "defaultValue": "",
+    "defaultValue": "defaultValue",
     "metadata": {
       "description": "Control key for Qlik Sense license."
     }
   },
   "qlikSenseOrganization": {
     "type": "string",
-    "defaultValue": "",
+    "defaultValue": "defaultValue",
     "metadata": {
       "description": "Organization owner of license."
     }
   },
   "qlikSenseName": {
     "type": "string",
-    "defaultValue": "",
+    "defaultValue": "defaultValue",
     "metadata": {
       "description": "Name of licensed organization."
     }
@@ -153,7 +153,7 @@
   "networkSecurityGroupName": "qlikSenseSecurityGroup",
   "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
   "scriptFolder": "scripts",
-  "scriptInstallFile": "qs-install.ps1",
+  "scriptInstallFileName": "qs-install.ps1",
   "scriptFileName": "qs-bootstrap.ps1"
 },
 "resources": [
@@ -366,24 +366,24 @@
     "resources": [
       {
         "type": "extensions",
-        "apiVersion": "2017-03-30",
+        "apiVersion": "2016-03-30",
         "name": "QlikSenseBootstrap",
         "location": "[resourceGroup().location]",
         "dependsOn": [
           "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
         ],
         "tags": {
-          "displayName": "QlikSense"
+          "displayName": "QlikSenseBootstrap"
         },
         "properties": {
           "publisher": "Microsoft.Compute",
           "type": "CustomScriptExtension",
-          "typeHandlerVersion": "1.8",
+          "typeHandlerVersion": "1.9",
           "autoUpgradeMinorVersion": true,
           "settings": {
             "fileUris": [
               "[concat(parameters('_artifactsLocation'), '/', variables('scriptFolder'), '/', variables('scriptFileName'), parameters('_artifactsLocationSasToken'))]",
-              "[concat(parameters('_artifactsLocation'), '/', variables('scriptFolder'), '/', variables('scriptInstallFile'), parameters('_artifactsLocationSasToken'))]"
+              "[concat(parameters('_artifactsLocation'), '/', variables('scriptFolder'), '/', variables('scriptInstallFileName'), parameters('_artifactsLocationSasToken'))]"
             ]
           },
           "protectedSettings": {
